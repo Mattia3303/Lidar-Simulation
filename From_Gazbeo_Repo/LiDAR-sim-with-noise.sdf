@@ -46,7 +46,7 @@
                 <geometry>
                     <plane>
                     <normal>0 0 1</normal>
-                    <size>1000 1000</size>
+                    <size>100 100</size>
                     </plane>
                 </geometry>
                 <material>
@@ -88,10 +88,10 @@
 
         <!-- sensors plugin-->
         <plugin
-        filename="libignition-gazebo-sensors-system.so"
-        name="ignition::gazebo::systems::Sensors">
-        <render_engine>ogre2</render_engine>
+            filename="libignition-sensors6-gpu_lidar.so"
+            name="ignition::sensors::GpuLidarSensor">
         </plugin>
+               
 
         <model name='vehicle_blue' canonical_link='chassis'>
             <pose relative_to='world'>0 0 0 0 0 0</pose>   <!--the pose is relative to the world by default-->
@@ -102,52 +102,6 @@
             </frame>
 
             <link name='chassis'>
-                <!--lidar sensor-->
-                <sensor name='lidar' type='gpu_ray'>
-                    <pose relative_to='lidar_frame'>0 0 0 0 0 0</pose>
-                    <topic>lidar</topic>
-                    <update_rate>1</update_rate>
-                    <ray>
-                        <scan>
-                            <horizontal>
-                                <samples>1000</samples>
-                                <resolution>1</resolution>
-                                <min_angle>-1,5708</min_angle>
-                                <max_angle>1,5708</max_angle>
-                            </horizontal>
-                            <vertical>
-                                <samples>64</samples>
-                                <resolution>0.01</resolution>
-                                <min_angle>-0.523599</min_angle>
-                                <max_angle>0.523599</max_angle>
-                            </vertical>
-                        </scan>
-                        <range>
-                            <min>0.08</min>
-                            <max>10.0</max>
-                            <resolution>0.01</resolution>
-                        </range>
-                    </ray>
-                    <always_on>1</always_on>
-                    <visualize>true</visualize>
-
-                    <!-- Plugin to publish PointCloud2 messages -->
-                    <plugin
-                        name="ignition::gazebo::systems::GpuLidar"
-                        filename="libignition-gazebo-gpu-lidar-system.so">
-                        <topic_name>/lidar/points</topic_name>
-                        <frame_name>lidar_frame</frame_name>
-                    </plugin>
-
-                    <!-- ROS 2 plugin for PointCloud2 -->
-                    <plugin
-                        name="ignition::gazebo::systems::RosGpuLidar"
-                        filename="libignition-gazebo-ros-gpu-lidar-system.so">
-                        <topic_name>/lidar/points</topic_name>
-                        <frame_name>lidar_frame</frame_name>
-                    </plugin>
-                </sensor>
-
                 <pose relative_to='__model__'>0.5 0 0.4 0 0 0</pose>
                 <inertial> <!--inertial properties of the link mass, inertia matix-->
                     <mass>1.14395</mass>
@@ -181,17 +135,6 @@
                     </geometry>
                 </collision>
             </link>
-
-            <plugin
-                filename="libignition-gazebo-diff-drive-system.so"
-                name="ignition::gazebo::systems::DiffDrive">
-                <left_joint>left_wheel_joint</left_joint>
-                <right_joint>right_wheel_joint</right_joint>
-                <wheel_separation>1.2</wheel_separation>
-                <wheel_radius>0.4</wheel_radius>
-                <odom_publish_frequency>1</odom_publish_frequency>
-                <topic>cmd_vel</topic>
-            </plugin>
 
             <!--let's build the left wheel-->
             <link name='left_wheel'>
@@ -340,7 +283,6 @@
                 <child>caster</child>
             </joint>
         </model>
-
 
     </world>
 </sdf>
