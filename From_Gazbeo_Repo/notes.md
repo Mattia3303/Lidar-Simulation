@@ -20,8 +20,7 @@ cd gz-sensors; mkdir build; cd build; cmake ..;  makeù
 
 
 4) **modifica la variabile d'ambiente di gazebo in modo che veda il plugin**
-cd ./gz-sensor
-export GZ_SIM_SYSTEM_PLUGIN_PATH=/home/mattia/Documents/Mattia/DriverLess/LiDAR/gazebo/gz-sensors-ignition-sensors6_6.0.0/build/lib
+export GZ_SIM_SYSTEM_PLUGIN_PATH=./gz-sensors-ignition-sensors6_6.0.0/build/lib
 
 
 
